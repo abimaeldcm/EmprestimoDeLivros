@@ -2,8 +2,8 @@
 using EmprestimoLivros.API.Interfaces;
 using EmprestimoLivros.API.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace EmprestimoLivros.API.Repositorios
@@ -18,40 +18,79 @@ namespace EmprestimoLivros.API.Repositorios
             _emprestimosContext = emprestimosContext;
         }
 
-        public void Alterar(Usuario usuario)
+        public void Alterar(Usuario  usuario)
         {
-            _emprestimosContext.Update(usuario);
-            _emprestimosContext.SaveChanges();
+            try
+            {
+                _emprestimosContext.Update(usuario);
+                _emprestimosContext.SaveChanges();
+            }
+            catch (Exception erro)
+            {
+
+                throw new Exception("Erro ao alterar o usuário. \nDetalhes: " + erro.Message );
+            }
+            
         }
 
         public async Task<bool> Excluir(int id)
         {
-            Usuario usuario = await BuscarPorId(id);
-            if (usuario == null)
+            try
             {
-                return false;
+                Usuario usuario = await BuscarPorId(id);
+                if (usuario == null)
+                {
+                    return false;
+                }
+                _emprestimosContext.Remove(usuario);
+                _emprestimosContext.SaveChanges();
+
+                return true;
+
             }
-
-            _emprestimosContext.Remove(usuario);
-            _emprestimosContext.SaveChanges();
-
-            return true;
+            catch (Exception erro)
+            {
+                throw new Exception (erro.Message);
+            }
         }
 
         public void incluir(Usuario usuario)
         {
-            _emprestimosContext.Usuarios.Add(usuario);
-            _emprestimosContext.SaveChanges();
+            try
+            {
+                _emprestimosContext.Usuarios.Add(usuario);
+                _emprestimosContext.SaveChanges();
+
+            }
+            catch (Exception erro)
+            {
+                throw new Exception(erro.Message);
+            }
+
         }
 
         public async Task<Usuario> BuscarPorId(int id)
         {
-            return await _emprestimosContext.Usuarios.FindAsync(id);
+            try
+            {
+                return await _emprestimosContext.Usuarios.FindAsync(id);
+            }
+            catch (Exception erro) 
+            { 
+                throw new Exception(erro.Message); 
+            }
         }
 
         public async Task<IEnumerable<Usuario>> SelecionarTodos()
         {
-            return await _emprestimosContext.Usuarios.ToListAsync();
+            try
+            {
+                return await _emprestimosContext.Usuarios.ToListAsync();
+            }
+            catch (Exception erro)
+            {
+                throw new Exception(erro.Message);
+            }
         }
     }
 }

@@ -8,6 +8,7 @@ namespace EmprestimoLivros.API.DTOs
     {
         public int UsuarioId { get; set; }
         [Required]
+        [MinLength(3, ErrorMessage= "O nome deve ter no mínimo 3 letras")]
         public string Nome { get; set; }
         [Required]
         public string Email { get; set; }
