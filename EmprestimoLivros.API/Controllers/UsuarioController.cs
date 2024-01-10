@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace EmprestimoLivros.API.Controllers
 {
+
     [ApiController]
     [Route("api/[controller]")]
     public class UsuarioController : Controller

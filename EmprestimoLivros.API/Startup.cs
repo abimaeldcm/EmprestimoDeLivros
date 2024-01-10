@@ -39,6 +39,7 @@ namespace EmprestimoLivros.API
 
             services.AddControllers();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            services.AddScoped<ILivroRepository, LivroRepository>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EmprestimoLivros.API", Version = "v1" });

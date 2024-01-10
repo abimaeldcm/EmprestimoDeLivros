@@ -1,0 +1,193 @@
+﻿@model IEnumerable<EmprestimoLivros.Web.Models.Livro>
+<br />
+<br />
+<br />
+<h1>Livros</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        <div>
+            <div class="pull-left">
+                <a asp-action="AdicionarLivros" class="btn btn-primary">
+                    <span title="Adicionar Livro" class="fas fa-plus"></span> Adicionar Livro
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="panel panel-default">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.LivroId)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.ImagemCapa)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.Titulo)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.Autor)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.AnoPublicacao)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="text-center align-middle">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LivroId)
+                    </td>
+                    <td>
+                        <img src="~/imagem/@item.ImagemCapa" alt="Imagem da Capa" style="max-width: 100%; max-height: 200px;" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Titulo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Autor)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AnoPublicacao)
+                    </td>
+                    <td>
+                        <a class="btn btn-warning" data-toggle="modal" data-target="#modalEditar-@item.LivroId">
+                            <span class="fas fa-edit"></span>
+                        </a>
+
+                        <div class="modal fade" id="modalEditar-@item.LivroId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel-@item.LivroId" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel-@item.LivroId">Editar Livro</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Cancelar">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form asp-action="EditarLivro" method="post">
+
+                                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                            <input type="hidden" asp-for="@item.LivroId" />
+                                            <div class="form-group">
+                                                <label asp-for="@item.Titulo" class="control-label"></label>
+                                                <input asp-for="@item.Titulo" class="form-control" />
+                                                <span asp-validation-for="@item.Titulo" class="text-danger"></span>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label asp-for="@item.Autor" class="control-label"></label>
+                                                <textarea asp-for="@item.Autor" class="form-control"></textarea>
+                                                <span asp-validation-for="@item.Autor" class="text-danger"></span>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group col-sm-4">
+                                                    <label asp-for="@item.AnoPublicacao" class="control-label"></label>
+                                                    <input asp-for="@item.AnoPublicacao" class="form-control" />
+                                                    <span asp-validation-for="@item.AnoPublicacao" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label asp-for="@item.ImagemCapa" class="col-md-2 control-label"></label>
+                                                <div class="col-md-10">
+                                                    <input type="file" name="fotoCapa" asp-for="@item.ImagemCapa" class="form-control" id="inputImagem_@item.LivroId)" />
+                                                    <span asp-validation-for="@item.ImagemCapa" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
+                                            <div id="previewContainer" class="col-md-10">
+                                                <img id="imagemPreview" src="#" alt="Imagem Preview" style="display:none; width:40%;" />
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label asp-for="@item.Disponivel" class="col-md-2 control-label"></label>
+                                                <div class="col-md-10">
+                                                    <input type="checkbox" asp-for="@item.Disponivel" />
+                                                    <span asp-validation-for="@item.Disponivel" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group" style="padding-top: 10px">
+                                                <input type="submit" value="Salvar" class="btn btn-primary" />
+                                                <a asp-action="Index" class="btn btn-info">Voltar</a>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <a class="btn btn-primary" data-toggle="modal" data-target="#modalDeletar-@item.LivroId">
+                            <span class="fas fa-trash-alt"></span>
+                        </a>
+                        <div class="modal fade" id="modalDeletar-@item.LivroId" tabindex="-1" role="dialog" aria-labelledby="modalDeletar-@item.LivroId-Title" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Realmente deseja deletar o livro:</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <p><b>Id: </b> @item.LivroId</p>
+                                        <p><b>Titulo: </b>@item.Titulo</p>
+                                        <p><b>Autor: </b>@item.Autor</p>
+                                        <p><b>AnoPublicacao: </b>@item.AnoPublicacao</p>
+                                        <p><b>Disponivel:</b>@item.Disponivel</p>
+                                        <p><b>ImagemCapa:</b></p>
+                                        <img src="~/imagem/@item.ImagemCapa" alt="Imagem da Capa" style="max-width: 100%; max-height: 200px;" />
+                                    </div>
+                                    <div class="modal-footer d-flex align-items-center justify-content-center">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <form asp-action="DeletarUsuario" asp-route-id="@item.LivroId" method="post">
+                                            <button type="submit" class="btn btn btn-danger">Excluir</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+@foreach (var item in Model)
+{
+   <script>
+        $(document).ready(function () {
+            // Quando o valor do input de arquivo for alterado
+            $('#inputImagem_inputImagem_@item.LivroId').change(function () {
+                exibirImagemPreview(this);
+            });
+
+            // Função para exibir a imagem selecionada
+            function exibirImagemPreview(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $('#imagemPreview').attr('src', e.target.result);
+                        $('#imagemPreview').show();
+                    }
+
+                    reader.readAsDataURL(input.files[0]); // Converte para base64
+                } else {
+                    // Limpa a imagem se o input de arquivo estiver vazio
+                    $('#imagemPreview').attr('src', '#');
+                    $('#imagemPreview').hide();
+                }
+            }
+        });
+    </script> 
+}

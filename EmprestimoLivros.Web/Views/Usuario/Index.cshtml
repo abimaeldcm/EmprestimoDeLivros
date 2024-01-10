@@ -1,0 +1,134 @@
+﻿@model IEnumerable<EmprestimoLivros.Web.Models.Usuario>
+<br />
+<br />
+<br />
+<h1>Usuários</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        <div>
+            <div class="pull-left">
+                <a asp-action="AdicionarUsuario" class="btn btn-primary">
+                    <span title="Adicionar Usuario" class="fas fa-plus"></span> AdicionarUsuario
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="panel panel-default">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.UsuarioId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nome)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Telefone)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UsuarioId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Telefone)
+                    </td>
+                    <td>
+                        <a class="btn btn-warning" data-toggle="modal" data-target="#modalEditar-@item.UsuarioId">
+                            <span class="fas fa-edit"></span>
+                        </a>
+
+                        <div class="modal fade" id="modalEditar-@item.UsuarioId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel-@item.UsuarioId" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel-@item.UsuarioId">New message</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form asp-action="EditarUsuario" method="post">
+
+                                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                            <input type="hidden" asp-for="@item.UsuarioId" />
+                                            <div class="form-group">
+                                                <label asp-for="@item.Nome" class="control-label"></label>
+                                                <input asp-for="@item.Nome" class="form-control" />
+                                                <span asp-validation-for="@item.Nome" class="text-danger"></span>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label asp-for="@item.Email" class="control-label"></label>
+                                                <textarea asp-for="@item.Email" class="form-control"></textarea>
+                                                <span asp-validation-for="@item.Email" class="text-danger"></span>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group col-sm-4">
+                                                    <label asp-for="@item.Telefone" class="control-label"></label>
+                                                    <input asp-for="@item.Telefone" class="form-control" />
+                                                    <span asp-validation-for="@item.Telefone" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group" style="padding-top: 10px">
+                                                <input type="submit" value="Save" class="btn btn-primary" />
+                                                <a asp-action="Index" class="btn btn-info">Back to List</a>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <a class="btn btn-primary" data-toggle="modal" data-target="#modalDeletar-@item.UsuarioId">                          
+                            <span class="fas fa-trash-alt"></span>
+                        </a>
+                        <div class="modal fade" id="modalDeletar-@item.UsuarioId" tabindex="-1" role="dialog" aria-labelledby="modalDeletar-@item.UsuarioId-Title" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Realmente deseja deletar o usário:</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <p><b>Id: </b> @item.UsuarioId</p>
+                                        <p><b>Nome: </b>@item.Nome</p>
+                                        <p><b>Email: </b>@item.Email</p>
+                                        <p><b>Telefone: </b>@item.Telefone</p>
+                                        <p><b>Data de Cadastro:</b>@item.DataCadastro</p>
+                                    </div>
+                                    <div class="modal-footer d-flex align-items-center justify-content-center">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <form asp-action="DeletarUsuario" asp-route-id="@item.UsuarioId" method="post">
+                                            <button type="submit" class="btn btn btn-danger">Excluir</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

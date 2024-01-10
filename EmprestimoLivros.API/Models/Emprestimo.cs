@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace EmprestimoLivros.API.Models
 {
-    public partial class Emprestimo
+    public class Emprestimo
     {
         public int EmprestimoId { get; set; }
         public int? LivroId { get; set; }

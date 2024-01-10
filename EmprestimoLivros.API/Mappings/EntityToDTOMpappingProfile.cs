@@ -10,6 +10,7 @@ namespace EmprestimoLivros.API.Mappings
         public EntityToDTOMpappingProfile()
         {
             CreateMap<Usuario, UsuarioDTO>().ReverseMap();
+            CreateMap<Livro, LivroDTO>().ReverseMap();
         }
     }
 }

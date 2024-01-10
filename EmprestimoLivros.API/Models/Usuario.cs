@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace EmprestimoLivros.API.Models
 {
-    public partial class Usuario
+    public class Usuario
     {
         public Usuario()
         {
